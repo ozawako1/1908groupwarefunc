@@ -5,8 +5,10 @@ var fs = require('fs');
 
 function get_time(date)
 {
-    var h = date.getHours();
-    var m = date.getMinutes();
+    var utcDate = new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate(), date.getHours(), date.getMinutes(), date.getSeconds()));
+
+    var h = utcDate.getHours();
+    var m = utcDate.getMinutes();
 
     h = ("00" + h).slice(-2);
     m = ("00" + m).slice(-2);
@@ -58,6 +60,7 @@ function format_schedule(obj){
 
 }
 
+/*
 function get_offset(timezone){
     var offset = 0;
     if (timezone == "Asia/Tokyo") {
@@ -65,6 +68,7 @@ function get_offset(timezone){
     }
     return offset; 
 }
+*/
 
 function format_time(m, d) {
     var m0 = ('00' + m).slice(-2);
@@ -113,7 +117,7 @@ module.exports = function (context, req) {
         json: true // Automatically parses the JSON string in the response
     };
 
-    context.log('Sending a request.');
+    context.log('Sending a request.' + JSON.stringify(options.qs));
 
     sql.is_user_exist(from_email)
         .then(() => rp(options))

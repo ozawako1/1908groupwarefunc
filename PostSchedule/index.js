@@ -99,8 +99,8 @@ module.exports = function (context, req) {
     sttime.setDate(sttime.getDate() + diff);
     edtime.setDate(edtime.getDate() + diff);
 
-    sttime.setHours(0,0,0);
-    edtime.setHours(23,59,59);
+    sttime.setHours(0 - JST_OFFSET,0,0);
+    edtime.setHours(23 - JST_OFFSET,59,59);
 
     var options = {
         uri: 'https://motex.s.cybozu.com/g/api/v1/schedule/events',

@@ -1,39 +1,8 @@
 
 var rp = require('request-promise');
 var fs = require('fs');
-
-//var my_config = require("./config.ini");
-
+var sql = require('sqldb.js');
 var TIME_SPACE = "           ";
-
-
-/*
-    {
-      "subject": "【Cat＆An：保守サイト更新スケジュール】8月分",
-      "start": {
-        "dateTime": "2018-08-01T00:00:00+09:00",
-        "timeZone": "Asia/Tokyo"
-      },
-      "end": {
-        "dateTime": "2018-08-31T23:59:59+09:00",
-        "timeZone": "Asia/Tokyo"
-      },
-      "attendees": [
-        {
-          "id": "59",
-          "code": "tatsuya.sumiyama",
-          "name": "住山　達也",
-          "type": "USER"
-        },
-        {
-          "id": "143",
-          "code": "shuya.matsumura",
-          "name": "松村　周也",
-          "type": "USER"
-        }
-      ]
-    }
-*/
 
 function get_time(date)
 {
@@ -70,18 +39,16 @@ function format_schedule(obj){
             msg = "";
         }
         
-        if (events[i].isAllDay) {
-            msg += TIME_SPACE + " ";
-        } else {
+        if (events[i].isAllDay == false) {
             var st = new Date(events[i].start.dateTime);
             var et = new Date(events[i].end.dateTime);
             if(isProgress(st, et)) {
                 mark = "*"
             }
-            msg += get_time(st) + "-" + get_time(et) + " ";
+            msg += get_time(st) + "-" + get_time(et) + " " + mark;
         }
 
-        msg += mark + events[i].subject + "\n"
+        msg += events[i].subject + "\n"
     }
 
     if (obj.hasNext) {
@@ -107,14 +74,13 @@ function format_time(m, d) {
 }
 
 
-module.exports = async function (context, req) {
+module.exports = function (context, req) {
+    
     context.log('Webhook was triggered!');
 
-    CTX = context;
-
     var userid = req.query.gid;
-    var roomid = req.query.rid;
     var diff = req.query.diff;
+    var from_email = req.query.femail;
 
     var sttime= new Date();
     var edtime = new Date();
@@ -150,7 +116,8 @@ module.exports = async function (context, req) {
 
     context.log('Sending a request.');
 
-    rp(options)
+    sql.query_cybozumaster(from_email)
+        .then(() => rp(options))
         .then((obj) => format_schedule(obj))
         .then(function (msg) {            
             context.res = {

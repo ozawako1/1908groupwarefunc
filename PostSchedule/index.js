@@ -10,6 +10,8 @@ function get_time(date)
     //var utcDate = new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate(), date.getHours(), date.getMinutes(), date.getSeconds()));
 
     var h = date.getHours() - JST_OFFSET;
+    h = h > 24 ? h - 24 : h;
+    
     var m = date.getMinutes();
 
     h = ("00" + h).slice(-2);

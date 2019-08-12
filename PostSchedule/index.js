@@ -3,12 +3,14 @@ var sql = require('./sqldb.js');
 var rp = require('request-promise');
 var fs = require('fs');
 
+const JST_OFFSET = -9;
+
 function get_time(date)
 {
-    var utcDate = new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate(), date.getHours(), date.getMinutes(), date.getSeconds()));
+    //var utcDate = new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate(), date.getHours(), date.getMinutes(), date.getSeconds()));
 
-    var h = utcDate.getHours();
-    var m = utcDate.getMinutes();
+    var h = date.getHours() - JST_OFFSET;
+    var m = date.getMinutes();
 
     h = ("00" + h).slice(-2);
     m = ("00" + m).slice(-2);

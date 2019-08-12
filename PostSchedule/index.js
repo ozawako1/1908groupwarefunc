@@ -79,7 +79,7 @@ function format_time(m, d) {
 
 module.exports = function (context, req) {
     
-    context.log('Webhook was triggered!');
+    context.log('Webhook was triggered. [' + JSON.stringify(req.query) + ']');
 
     var userid = req.query.gid;
     var diff = req.query.diff;

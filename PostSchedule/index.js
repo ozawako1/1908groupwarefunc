@@ -27,7 +27,9 @@ function isProgress(start, end){
     return ret;
 }
 
-function format_schedule(obj){
+function format_schedule(obj, ctx){
+
+    ctx.log("found. " + JSON.stringify(obj));
 
     var msg = "No Schedule Found.\n";
     var events = obj.events;
@@ -121,7 +123,7 @@ module.exports = function (context, req) {
 
     sql.is_user_exist(from_email)
         .then(() => rp(options))
-        .then((obj) => format_schedule(obj))
+        .then((obj) => format_schedule(obj, context))
         .then(function (msg) {            
             context.res = {
                 status: 200,

@@ -1,8 +1,7 @@
 
+var sql = require('./sqldb.js');
 var rp = require('request-promise');
 var fs = require('fs');
-var sql = require('./sqldb.js');
-var TIME_SPACE = "           ";
 
 function get_time(date)
 {
@@ -116,13 +115,13 @@ module.exports = function (context, req) {
 
     context.log('Sending a request.');
 
-    sql.query_cybozumaster(from_email)
+    sql.is_user_exist(from_email)
         .then(() => rp(options))
         .then((obj) => format_schedule(obj))
         .then(function (msg) {            
             context.res = {
                 status: 200,
-                body: msg
+                body: "" + msg + "\n"
             }
             context.done();
         })
@@ -131,32 +130,10 @@ module.exports = function (context, req) {
                 status: 500,
                 body: { "Error": err.message }
             }
-            cosole.log(err.message + "|" + err.stack )
+            context.log(err.message + "|" + err.stack )
             context.done();
         });
         
 }
 
 
-/*
-module.exports = async function (context, req) {
-    context.log('JavaScript HTTP trigger function processed a request.');
-
-    if (req.query.name || (req.body && req.body.name)) {
-
-        // id から 
-
-
-        context.res = {
-            // status: 200,  Defaults to 200 
-            body: "Hello " + (req.query.name || req.body.name) + " !!"
-        };
-    }
-    else {
-        context.res = {
-            status: 400,
-            body: "Please pass a name on the query string or in the request body"
-        };
-    }
-};
-*/

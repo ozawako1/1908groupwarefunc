@@ -12,6 +12,7 @@
     "fs": "0.0.1-security",
     "promise": "^8.0.3",
     "request-promise": "^4.2.4",
-    "tedious": "^6.3.0"
-  }
+    "tedious": "^2.7.1"
+  },
+  "devDependencies": {}
 }

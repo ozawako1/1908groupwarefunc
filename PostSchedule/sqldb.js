@@ -83,7 +83,7 @@ exports.is_user_exist = function(user_email){
         query_garoon_user_master(user_email)
             .then(num =>{
                 if (num == 0) {
-                    reject(new Error("insuffcient access priv."));
+                    reject(new Error("insuffcient privilege."));
                 } else {
                     resolve(num);
                 }

@@ -10,6 +10,8 @@
   "license": "ISC",
   "dependencies": {
     "fs": "0.0.1-security",
-    "request-promise": "^4.2.4"
+    "promise": "^8.0.3",
+    "request-promise": "^4.2.4",
+    "tedious": "^6.3.0"
   }
 }

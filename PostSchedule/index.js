@@ -1,7 +1,7 @@
 
 var rp = require('request-promise');
 var fs = require('fs');
-var sql = require('sqldb.js');
+var sql = require('./sqldb.js');
 var TIME_SPACE = "           ";
 
 function get_time(date)
@@ -129,9 +129,9 @@ module.exports = function (context, req) {
         .catch(function (err) {
             context.res = {
                 status: 500,
-                body: { "Error": err.message + "|" + err.stack }
+                body: { "Error": err.message }
             }
-            console.log(err.message)
+            cosole.log(err.message + "|" + err.stack )
             context.done();
         });
         

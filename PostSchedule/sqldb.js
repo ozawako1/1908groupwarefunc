@@ -83,7 +83,7 @@ exports.is_user_exist = function(user_email){
         query_garoon_user_master(user_email)
             .then(num =>{
                 if (num == 0) {
-                    reject(new Error("insuffcient privilege."));
+                    reject(new Error("No Garoon account found."));
                 } else {
                     resolve(num);
                 }

@@ -94,17 +94,30 @@ module.exports = function (context, req) {
     var diff = req.query.diff;
     var from_email = req.query.femail;
 
-    var sttime= new Date();
-    var edtime = new Date();
-
     diff = !diff ? 0 : parseInt(diff, 10);
 
-    sttime.setDate(sttime.getDate() + diff);
-    edtime.setDate(edtime.getDate() + diff);
+    var sttime = new Date();
+    var edtime = new Date();
 
+    //日本時間に変換
+    sttime = new Date(sttime.getTime() - (JST_OFFSET * 1000 * 60 * 60));
+    edtime = new Date(edtime.getTime() - (JST_OFFSET * 1000 * 60 * 60));
+
+    sttime.setHours(0, 0, 0);
+    edtime.setHours(23,59,59); 
+
+    //UTCに変換
+    sttime = new Date(sttime.getTime() + (JST_OFFSET * 1000 * 60 * 60));    
+    edtime = new Date(edtime.getTime() + (JST_OFFSET * 1000 * 60 * 60));
+
+/*
     sttime.setHours(0 + JST_OFFSET,0,0);
     edtime.setHours(23 + JST_OFFSET,59,59);
 
+    sttime.setDate(sttime.getDate() + diff);
+    edtime.setDate(edtime.getDate() + diff);
+*/
+    
     var options = {
         uri: 'https://motex.s.cybozu.com/g/api/v1/schedule/events',
         qs: {

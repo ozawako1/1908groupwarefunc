@@ -51,7 +51,7 @@ function format_schedule(obj, ctx){
             var et = events[i].end.dateTime;
             st = !st ? "" : new Date(st);
             et = !et ? "" : new Date(et);
-            if(st <> "" && et <> "" && isProgress(st, et)) {
+            if(st != "" && et != "" && isProgress(st, et)) {
                 mark = "*"
             }
             msg += get_time(st) + "-" + get_time(et) + " " + mark;

@@ -123,7 +123,7 @@ module.exports = function (context, req) {
         json: true // Automatically parses the JSON string in the response
     };
 
-    context.log('Sending a request.' + JSON.stringify(options.qs));
+    context.log('will send a request.' + JSON.stringify(options.qs));
 
     sql.is_user_exist(from_email)
         .then(() => rp(options))

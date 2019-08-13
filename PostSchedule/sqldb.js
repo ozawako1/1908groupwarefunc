@@ -4,7 +4,7 @@ var DBRequest = require('tedious').Request;
 var TYPES = require('tedious').TYPES;
 var Promise = require('promise');
 
-const URL_AZURE_SQLDB = "lspgatewaysql.database.windows.net";
+const URL_AZURE_SQLDB = "mydomesticdatabase.database.windows.net";
 
 function db_conn(){
 
@@ -68,8 +68,6 @@ function db_execquery(conn, from_email){
 
 
 function query_garoon_user_master(user_email){
-
-    console.log("query garoon_user_master");
       
     return db_conn()
             .then(conn => db_execquery(conn, user_email)); 

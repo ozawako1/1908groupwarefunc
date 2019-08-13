@@ -47,9 +47,11 @@ function format_schedule(obj, ctx){
         }
         
         if (events[i].isAllDay == false) {
-            var st = new Date(events[i].start.dateTime);
-            var et = new Date(events[i].end.dateTime);
-            if(isProgress(st, et)) {
+            var st = events[i].start.dateTime;
+            var et = events[i].end.dateTime;
+            st = !st ? "" : new Date(st);
+            et = !et ? "" : new Date(et);
+            if(st <> "" && et <> "" && isProgress(st, et)) {
                 mark = "*"
             }
             msg += get_time(st) + "-" + get_time(et) + " " + mark;

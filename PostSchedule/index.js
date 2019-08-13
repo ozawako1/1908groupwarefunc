@@ -7,8 +7,9 @@ const JST_OFFSET = -9;
 
 function get_time(date)
 {
-    //var utcDate = new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate(), date.getHours(), date.getMinutes(), date.getSeconds()));
-
+    if (date == "") {
+        return date;
+    }
     var h = date.getHours() - JST_OFFSET;
     h = h > 24 ? h - 24 : h;
     
@@ -47,10 +48,10 @@ function format_schedule(obj, ctx){
         }
         
         if (events[i].isAllDay == false) {
-            var st = events[i].start.dateTime;
-            var et = events[i].end.dateTime;
-            st = !st ? "" : new Date(st);
-            et = !et ? "" : new Date(et);
+            var st = events[i].start;
+            var et = events[i].end;
+            st = !st ? "" : new Date(st.dateTime);
+            et = !et ? "" : new Date(et.dateTime);
             if(st != "" && et != "" && isProgress(st, et)) {
                 mark = "*"
             }

@@ -155,7 +155,8 @@ module.exports = function (context, req) {
             });
         } else {
             context.res = {
-                status: 404
+                status: 405,
+                body: "Method Not Allowed"
             }
             context.done();            
         }

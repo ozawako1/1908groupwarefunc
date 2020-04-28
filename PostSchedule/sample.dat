@@ -1,3 +1,9 @@
 {
-    "name": "Azure"
+    query : {
+        "gid": '142',
+        "femail": "koichi.ozawa@motex.co.jp",
+        "diff": 0
+    }
 }
+
+curl -X GET -H "Content-Type: application/json" -H "User-Agent: ChatWork-Webhook/" "http://localhost:7071/api/PostSchedule?gid=142&femail=koichi.ozawa@motex.co.jp&diff=0"

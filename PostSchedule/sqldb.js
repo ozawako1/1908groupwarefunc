@@ -78,13 +78,13 @@ exports.is_user_exist = function(user_email){
     console.log("query garoon_user_master");
       
     return new Promise((resolve, reject) => {
+        var ret = false;
         query_garoon_user_master(user_email)
             .then(num =>{
-                if (num == 0) {
-                    reject(new Error("No Garoon account found."));
-                } else {
-                    resolve(num);
+                if (num != 0) {
+                    ret = true;
                 }
+                resolve(ret);
             })
             .catch(function(err){
                 reject(err);

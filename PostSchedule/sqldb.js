@@ -80,6 +80,7 @@ exports.is_user_exist = function(user_email){
     return new Promise((resolve, reject) => {
         var ret = false;
         query_garoon_user_master(user_email)
+            //バグってないか？
             .then(num =>{
                 if (num != 0) {
                     ret = true;
@@ -91,3 +92,78 @@ exports.is_user_exist = function(user_email){
             });            
     });      
 };
+
+//var target = {
+//    garoon_id: "",
+//    garoon_type: ""
+//};
+exports.get_garoon_id_type = function(GaroonLogin){
+
+    return new Promise((resolve, reject) => {
+        db_conn()
+        .then(conn => {
+            var query = "SELECT g.userId, g.id_type FROM dbo.USERS_GAROON as g WHERE g.login_name = @who";
+            var param = [
+                {
+                    pname: 'who',
+                    stype: TYPES.NVarChar,
+                    value: GaroonLogin
+                }
+            ];
+
+            db_execquery2(conn, query, param)
+            .then((qresults) => {
+                if (qresults.length == 0) {
+                    reject(new Error("Login not found."));
+                } else if (qresults.length == 1) {
+                    var target ={
+                        garoon_id: qresults[0].userId.value.trim(),
+                        garoon_type: qresults[0].id_type.value.trim()
+                    }
+                    resolve(target);
+                } else {
+                    reject(new Error("Login too many."));
+                }
+            })
+            .catch((err) => {
+                reject(err);
+            });
+        });
+    }); 
+}
+
+function db_execquery2(conn, query, param){ 
+
+    console.log("db_execquery");
+
+    var results = [];
+
+    return new Promise((resolve, reject) => {
+
+        queryrequest = new DBRequest(query, function(err, rowCount, rows){
+            if (err) {
+                reject(err);
+            } else if (rowCount == 0){
+                reject(new Error("not Found."))
+            } else {
+                console.log(rowCount + " row(s) found.");
+                rows.forEach(function(row){
+                    results.push(row);
+                });
+            }
+        });  
+
+        param.forEach((p) => {
+            queryrequest.addParameter(p.pname, p.stype, p.value);
+        });
+
+        conn.execSql(queryrequest);
+
+        queryrequest.on('requestCompleted', function(){
+            console.log('reqCompleted');
+            conn.close();
+            resolve(results);
+        });
+
+    });
+}

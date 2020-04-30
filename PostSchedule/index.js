@@ -114,6 +114,7 @@ module.exports = function (context, req) {
     sql.is_user_exist(from_email)
     .then((exist) => {
         if (exist) {    
+
             var options = {
                 uri: 'https://motex.s.cybozu.com/g/api/v1/schedule/events',
                 qs: {
@@ -162,6 +163,7 @@ module.exports = function (context, req) {
         }
     })
     .catch(function (err) {
+        // 出口が多いのダサい。
         context.res = {
             status: 500,
             body: { "Error": err.message }

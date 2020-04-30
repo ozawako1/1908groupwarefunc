@@ -99,13 +99,19 @@ exports.is_user_exist = function(user_email){
 //};
 exports.get_garoon_id_type = function(GaroonLogin){
 
+
     return new Promise((resolve, reject) => {
         db_conn()
         .then(conn => {
-            var query = "SELECT g.userId, g.id_type FROM dbo.USERS_GAROON as g WHERE g.login_name = @who";
+            var query = "SELECT g.userId, g.id_type FROM dbo.USERS_GAROON as g WHERE g.login_name = @who1 OR g.email = @who2";
             var param = [
                 {
-                    pname: 'who',
+                    pname: 'who1',
+                    stype: TYPES.NVarChar,
+                    value: GaroonLogin
+                },
+                {
+                    pname: 'who2',
                     stype: TYPES.NVarChar,
                     value: GaroonLogin
                 }

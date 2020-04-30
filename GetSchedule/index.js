@@ -7,7 +7,7 @@ var moment = require('moment-timezone');
 const JST_OFFSET = -9;
 
 // QueryString: {
-//  target_user: スケジュール検索対象となるユーザー、設備のLogin名( email の @ の前)   
+//  target_user: スケジュール検索対象となるユーザー、設備のLogin名( 人：email の @ の前、設備 email)   
 // }
 //
 // Response: {
@@ -61,6 +61,8 @@ module.exports = function (context, req) {
         garoon_id: "",
         garoon_type: ""
     };
+
+    context.log('GetSchedule target id = [' + target_id + ']');
 
     // 引数で指定されたemailから、ユーザーなのか設備なのか判断
     get_target_info(target_id)

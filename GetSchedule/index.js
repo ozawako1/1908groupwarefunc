@@ -90,7 +90,7 @@ module.exports = function (context, req) {
         .then(function (response){            
             context.res = {
                 status: 200,
-                body: response
+                body: response.events
             }
             context.done();
         })

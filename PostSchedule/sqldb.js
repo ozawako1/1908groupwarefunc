@@ -101,40 +101,44 @@ exports.get_garoon_id_type = function(GaroonLogin){
 
 
     return new Promise((resolve, reject) => {
-        db_conn()
-        .then(conn => {
-            var query = "SELECT g.userId, g.id_type FROM dbo.USERS_GAROON as g WHERE g.login_name = @who1 OR g.email = @who2";
-            var param = [
-                {
-                    pname: 'who1',
-                    stype: TYPES.NVarChar,
-                    value: GaroonLogin
-                },
-                {
-                    pname: 'who2',
-                    stype: TYPES.NVarChar,
-                    value: GaroonLogin
-                }
-            ];
-
-            db_execquery2(conn, query, param)
-            .then((qresults) => {
-                if (qresults.length == 0) {
-                    reject(new Error("Login not found."));
-                } else if (qresults.length == 1) {
-                    var target ={
-                        garoon_id: qresults[0].userId.value.trim(),
-                        garoon_type: qresults[0].id_type.value.trim()
+        if (GaroonLogin == undefined) {
+            reject(new Error("Invalid arg (Login)."));
+        } else {
+            db_conn()
+            .then(conn => {
+                var query = "SELECT g.userId, g.id_type FROM dbo.USERS_GAROON as g WHERE g.login_name = @who1 OR g.email = @who2";
+                var param = [
+                    {
+                        pname: 'who1',
+                        stype: TYPES.NVarChar,
+                        value: GaroonLogin
+                    },
+                    {
+                        pname: 'who2',
+                        stype: TYPES.NVarChar,
+                        value: GaroonLogin
                     }
-                    resolve(target);
-                } else {
-                    reject(new Error("Login too many."));
-                }
-            })
-            .catch((err) => {
-                reject(err);
+                ];
+
+                db_execquery2(conn, query, param)
+                .then((qresults) => {
+                    if (qresults.length == 0) {
+                        reject(new Error("Login not found."));
+                    } else if (qresults.length == 1) {
+                        var target ={
+                            garoon_id: qresults[0].userId.value.trim(),
+                            garoon_type: qresults[0].id_type.value.trim()
+                        }
+                        resolve(target);
+                    } else {
+                        reject(new Error("Login too many."));
+                    }
+                })
+                .catch((err) => {
+                    reject(err);
+                });
             });
-        });
+        }
     }); 
 }
 

@@ -12,6 +12,7 @@
     "fs": "0.0.1-security",
     "moment-timezone": "^0.5.28",
     "request": "^2.88.2",
-    "request-promise": "^4.2.5"
+    "request-promise": "^4.2.5",
+    "tedious": "^9.1.0"
   }
 }

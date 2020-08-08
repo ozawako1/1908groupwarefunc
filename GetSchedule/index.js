@@ -12,6 +12,7 @@ const JST_OFFSET = -9;
 //
 // Response: {
 //  id: "" // 予定のID
+//  eventMenu: "" //予定のドロップダウンメニュー
 //  subject: "" //予定の件名
 //  start:  ""  //予定の開始時刻
 //  end:    ""  //予定の終了時刻
@@ -76,7 +77,7 @@ module.exports = function (context, req) {
                 "rangeEnd": range.etime,
                 "target": target.garoon_id,
                 "targetType": (target.garoon_type == 'U') ? 'user': 'facility',
-                "fields": "id,subject,start,end,isAllDay"
+                "fields": "id,eventMenu,subject,start,end,isAllDay"
             },
             headers: {
                 "X-Cybozu-Authorization": process.env.MY_GAROON_AUTH_STRING
